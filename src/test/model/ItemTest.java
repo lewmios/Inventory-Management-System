@@ -53,6 +53,22 @@ class ItemTest {
 
 
     @Test
+    void testDecreaseQuantity() {
+        assertEquals(1, testItem.getItemQuantity());
+        testItem.decreaseItemQuantity(1);
+        assertEquals(0, testItem.getItemQuantity());
+    }
+
+
+    @Test
+    void testIsDeductible() {
+        assertEquals(1, testItem.getItemQuantity());
+        assertTrue(testItem.isDeductible(1));
+        assertFalse(testItem.isDeductible(2));
+    }
+
+
+    @Test
     void testSetCategory() {
         assertEquals("Electronics", testItem.getItemCategory());
         testItem.setItemCategory("Technology");

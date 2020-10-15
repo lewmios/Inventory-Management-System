@@ -48,6 +48,21 @@ public class InventoryApp {
 
 
     // EFFECTS: displays a menu that allows users to make another selection when an item with the inputted barcode is
+    //          part of the inventory
+    public void displayBarcodeFound(Item item) {
+        System.out.println("\nWhat would you like to do...");
+        System.out.println("----------------------------");
+        System.out.println("[1] Remove item from inventory\n"
+                         + "[2] Return to main menu\n");
+        System.out.print("Selection: ");
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+
+        handleBarcodeFound(selection, item);
+    }
+
+
+    // EFFECTS: displays a menu that allows users to make another selection when an item with the inputted barcode is
     //          not part of the inventory
     public void displayBarcodeNotFound() {
         System.out.println("\nBarcode not found...");
@@ -70,6 +85,21 @@ public class InventoryApp {
         String name = scanner.nextLine();
 
         handleNameSelection(name);
+    }
+
+
+    // EFFECTS: displays a menu that allows users to make another selection when an item with the inputted name is
+    //          part of the inventory
+    public void displayNameFound(Item item) {
+        System.out.println("\nWhat would you like to do...");
+        System.out.println("----------------------------");
+        System.out.println("[1] Remove item from inventory\n"
+                         + "[2] Return to main menu\n");
+        System.out.print("Selection: ");
+        int selection = scanner.nextInt();
+
+        handleNameFound(selection, item);
+
     }
 
 
@@ -110,10 +140,36 @@ public class InventoryApp {
         inventory.addItem(item);
 
         System.out.println("\n" + item + "\n");
-        System.out.println("New item added to inventory, press enter to return to menu...");
+        System.out.println("New item added to inventory, press enter to return to main menu...");
         scanner.nextLine();
         displayMenu();
     }
+
+    /* MODIFIES: this
+     * EFFECTS: creates the necessary menus that allow for users to remove their desired quantity of an item
+     */
+    public void displayItemRemoval(Item item) {
+        System.out.println("\nWhat is the quantity you would like to remove?");
+        System.out.println("----------------------------------------------");
+        System.out.print("Quantity: ");
+        int quantity = scanner.nextInt();
+        scanner.nextLine();
+
+        if (item.isDeductible(quantity)) {
+            System.out.println("\nPress enter to confirm removal of item(s)...");
+            scanner.nextLine();
+            inventory.removeItem(item, quantity);
+
+            System.out.print("Item(s) have been removed from inventory, press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+        } else {
+            System.out.println("\nYour desired quantity surpassed the quantity in the inventory, please input"
+                             + " another quantity");
+            displayItemRemoval(item);
+        }
+    }
+
 
     /* MODIFIES: this
      * REQUIRES: barcode must be greater than zero
@@ -126,13 +182,15 @@ public class InventoryApp {
 
         if (item != null) {
             System.out.println("\n\n" + item.toString());
-            System.out.println("Press enter to return to main menu...");
+            displayBarcodeFound(item);
+            /*System.out.println("Press enter to return to main menu...");
             scanner.nextLine();
-            displayMenu();
+            displayMenu();*/
         } else {
             displayBarcodeNotFound();
         }
     }
+
 
     /* MODIFIES: this
      * REQUIRES: name must have a length greater than zero
@@ -145,11 +203,29 @@ public class InventoryApp {
 
         if (item != null) {
             System.out.println(("\n\n" + item.toString()));
-            System.out.println("Press enter to return to main menu...");
+            displayNameFound(item);
+            /*System.out.println("Press enter to return to main menu...");
             scanner.nextLine();
-            displayMenu();
+            displayMenu();*/
         } else {
             displayNameNotFound();
+        }
+    }
+
+    /*
+     * REQUIRES: selection be an integer
+     * EFFECTS: handles the selections made by user when their inputted item barcode is found
+     */
+    private void handleBarcodeFound(int selection, Item item) {
+        switch (selection) {
+            case 1:
+                displayItemRemoval(item);
+                break;
+            case 2:
+                displayMenu();
+                break;
+            default:
+                displayBarcodeFound(item);
         }
     }
 
@@ -172,6 +248,25 @@ public class InventoryApp {
 
     /*
      * REQUIRES: selection be an integer
+     * EFFECTS: handles the selections made by user when their inputted item name is found
+     */
+    private void handleNameFound(int selection, Item item) {
+        switch (selection) {
+            case 1:
+                displayItemRemoval(item);
+                break;
+            case 2:
+                displayMenu();
+                break;
+            default:
+                displayNameFound(item);
+        }
+
+    }
+
+
+    /*
+     * REQUIRES: selection be an integer
      * EFFECTS: handles the selections made by user when their inputted item name is not found
      */
     private void handleNameNotFound(int selection) {
@@ -186,6 +281,7 @@ public class InventoryApp {
                 displayNameNotFound();
         }
     }
+
 
     /*
      * REQUIRES: selection be an integer
@@ -211,6 +307,7 @@ public class InventoryApp {
                 displayMenu();
         }
     }
+
 
     /*
      * EFFECTS: prints out all the items currently in the inventory, and if inventory is empty then prints out

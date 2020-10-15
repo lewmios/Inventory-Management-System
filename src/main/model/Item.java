@@ -89,6 +89,23 @@ public class Item {
 
 
     /* MODIFIES: this
+     * REQUIRES: toDecrease must be greater than 0
+     * EFFECTS: toDecrease is subtracted from the current item quantity
+     */
+    public void decreaseItemQuantity(int toDecrease) {
+        this.itemQuantity -= toDecrease;
+    }
+
+
+    /*
+     * EFFECTS: returns true if itemQuantity has enough to deduct the given value
+     */
+    public boolean isDeductible(int toDeduct) {
+        return itemQuantity >= toDeduct;
+    }
+
+
+    /* MODIFIES: this
      * REQUIRES: newCategory has a length greater than zero
      * EFFECTS: current category of an item is changed to newCategory
      */

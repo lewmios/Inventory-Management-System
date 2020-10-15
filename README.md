@@ -50,4 +50,5 @@ As a user, I want to be able to (more will be added) ...
   - View a list of items currently in the inventory system
   - Search for items via item's name and view selected item's descriptors in detail
   - Search for items via item's barcode and view selected item's descriptors in detail
+  - Remove the desired quantity of an item from the inventory system (*just added, not marked)
   

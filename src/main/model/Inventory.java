@@ -15,7 +15,6 @@ public class Inventory {
 
 
     /* MODIFIES: this
-     * REQUIRES: nothing
      * EFFECTS: adds an item to the inventory and if item is already in the inventory based on matching barcodes then
      *          it increases the quantity of that item by the given quantity
      */
@@ -25,6 +24,32 @@ public class Inventory {
         } else {
             items.get(item.getItemBarcode()).increaseItemQuantity(item.getItemQuantity());
         }
+    }
+
+
+    /* MODIFIES: this
+     * REQUIRES: quantity must be greater than zero
+     * EFFECTS: decreases the quantity of an item in the inventory, and if the quantity of the item in the inventory
+     *          reaches zero, then removes the item from the inventory; if item is found in inventory, and item
+     *          quantity is greater or equals to quantity given, then returns true, else returns false
+     */
+    public boolean removeItem(Item item, int quantity) {
+        int barcode = item.getItemBarcode();
+        Item itemInInv = items.get(barcode);
+
+        if (items.containsKey(barcode)) {
+
+            if (itemInInv.getItemQuantity() > quantity) {
+                itemInInv.decreaseItemQuantity(quantity);
+                return true;
+
+            } else if (itemInInv.getItemQuantity() == quantity) {
+                itemInInv.decreaseItemQuantity(quantity);
+                items.remove(item.getItemBarcode());
+                return true;
+            }
+        }
+        return false;
     }
 
 

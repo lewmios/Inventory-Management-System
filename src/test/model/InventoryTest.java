@@ -45,6 +45,24 @@ public class InventoryTest {
 
 
     @Test
+    public void testRemoveItem() {
+        assertEquals(1, testInventory.getItemByBarcode(testItem1.getItemBarcode()).getItemQuantity());
+        testInventory.addItem(testItem1);
+        assertEquals(2, testInventory.getItemByBarcode(testItem1.getItemBarcode()).getItemQuantity());
+
+        testInventory.removeItem(testItem1, 1);
+        assertEquals(1, testInventory.getItemByBarcode(testItem1.getItemBarcode()).getItemQuantity());
+
+        assertFalse(testInventory.removeItem(testItem1, 10));
+
+        testInventory.removeItem(testItem1, 1);
+        assertFalse(testInventory.isInInventory(testItem1.getItemBarcode()));
+
+        assertFalse(testInventory.removeItem(testItem1, 1));
+    }
+
+
+    @Test
     public void testGetAllItems() {
         Inventory compareInventory = new Inventory();
 

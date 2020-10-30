@@ -44,7 +44,7 @@ access to every item stored in the inventory.
 
 ## **User Stories**
 
-As a user, I want to be able to (more will be added) ...
+As a user, I want to be able to ...
 
   - Create an item and add it into the inventory system
   - View a list of items currently in the inventory system
@@ -52,3 +52,10 @@ As a user, I want to be able to (more will be added) ...
   - Search for items via item's barcode and view selected item's descriptors in detail
   - Remove the desired quantity of an item from the inventory system (*just added, not marked)
   
+  
+As a user phase 2, I want to be able to ...
+
+  - Save my inventory to a file so that I can re-access it in the future
+  - Load previous inventory so that I can interact with it again
+  - Be reminded to save my inventory when I quit the application
+  - Be given the option to load a previous inventory from a file upon starting application

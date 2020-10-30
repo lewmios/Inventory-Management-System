@@ -1,0 +1,16 @@
+{"Items": [
+  {
+    "Category": "Electronics",
+    "Description": "Nintendo Game Console",
+    "Barcode": 120,
+    "Quantity": 1,
+    "Name": "Nintendo Switch"
+  },
+  {
+    "Category": "Electronics",
+    "Description": "Sony Game Console",
+    "Barcode": 121,
+    "Quantity": 1,
+    "Name": "Playstation 5"
+  }
+]}

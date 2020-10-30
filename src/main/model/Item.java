@@ -1,8 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.Objects;
 
-public class Item {
+// represents an item with an ID, barcode, name, quantity, category, and description
+public class Item implements Writable {
 
     private static int nextItemId = 1;
 
@@ -35,6 +39,7 @@ public class Item {
     public String getItemName() {
         return this.itemName;
     }
+
 
     public int getItemId() {
         return this.itemId;
@@ -148,9 +153,25 @@ public class Item {
     }
 
 
+    // EFFECTS: sets an item's hashcode as the user defined itemBarcode
     @Override
     public int hashCode() {
         return Objects.hash(itemBarcode);
+    }
+
+
+    // EFFECTS: takes an item and returns it as a json object
+    @Override
+    public JSONObject toJson() {
+        JSONObject item = new JSONObject();
+
+        item.put("Name", itemName);
+        item.put("Barcode", itemBarcode);
+        item.put("Quantity", itemQuantity);
+        item.put("Category", itemCategory);
+        item.put("Description", itemDescription);
+
+        return item;
     }
 
 }

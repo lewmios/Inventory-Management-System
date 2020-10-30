@@ -1,37 +1,84 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.util.Scanner;
 
+// creates a console based application which allows users to interact with Inventories filled with Items
 public class InventoryApp {
     private Inventory inventory;
     private Scanner scanner;
 
+    private static final String TARGET_JSON_FILE = "./data/inventory.json";
+    private JsonWriter printer;
+    private JsonReader reader;
+
 
     // EFFECTS: runs the inventory application
-    public InventoryApp() {
+    public InventoryApp() throws FileNotFoundException {
         this.inventory = new Inventory();
         this.scanner = new Scanner(System.in);
 
-        displayMenu();
+        this.printer = new JsonWriter(TARGET_JSON_FILE);
+        this.reader = new JsonReader(TARGET_JSON_FILE);
+
+        displayLoadPreviousInventory();
     }
 
 
     // EFFECTS: displays menu of options to user, and allows them to make a selection based on the choices shown
     public void displayMenu() {
-        System.out.println("Main Menu");
+        System.out.println("\nMain Menu");
         System.out.println("---------");
         System.out.print("[1] - Item Lookup by barcode\n"
                         + "[2] - Item lookup by name\n"
                         + "[3] - Add new item\n"
                         + "[4] - View all items\n"
-                        + "[5] - Exit\n\n");
+                        + "[5] - Load inventory\n"
+                        + "[6] - Save inventory\n"
+                        + "[7] - Exit\n\n");
         System.out.print("Selection: ");
         int selection = scanner.nextInt();
         scanner.nextLine();
 
-        handleSelection(selection);
+        if (selection < 5) {
+            handleSelection(selection);
+        } else {
+            handleSelection2(selection);
+        }
+    }
+
+
+    // EFFECTS: displays menu which allows users to decide whether or not to load previously saved inventory
+    public void displayLoadPreviousInventory() {
+        System.out.println("Would you like to load previous inventory?");
+        System.out.println("------------------------------------------");
+        System.out.print("[1] - Yes\n"
+                       + "[2] - No\n\n");
+        System.out.print("Selection: ");
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+
+        handleLoadPreviousInventory(selection);
+    }
+
+
+    // EFFECTS:  displays menu of options to user when they exit the program
+    public void displayExitMenu() {
+        System.out.println("\nBefore Exiting The Inventory Manager!");
+        System.out.println("-------------------------------------");
+        System.out.print("[1] - Save before exiting\n"
+                       + "[2] - Exit without saving\n\n");
+        System.out.print("Selection: ");
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+
+        handleApplicationExit(selection);
     }
 
 
@@ -171,6 +218,43 @@ public class InventoryApp {
     }
 
 
+    /*
+     * REQUIRES: selection be an integer
+     * EFFECTS: handles the selections made by user when to decide whether or not they want to load previous inventory
+     */
+    private void handleLoadPreviousInventory(int selection) {
+        switch (selection) {
+            case 1:
+                loadInventory();
+                break;
+            case 2:
+                displayMenu();
+                break;
+            default:
+                displayLoadPreviousInventory();
+        }
+    }
+
+    /*
+     * REQUIRES: selection be an integer
+     * EFFECTS: handles the selections made by user when they exit the application
+     */
+    private void handleApplicationExit(int selection) {
+        switch (selection) {
+            case 1:
+                saveInventoryExit();
+                System.out.print("Press enter to exit...");
+                scanner.nextLine();
+                System.exit(0);
+                break;
+            case 2:
+                System.exit(0);
+            default:
+                displayExitMenu();
+        }
+    }
+
+
     /* MODIFIES: this
      * REQUIRES: barcode must be greater than zero
      * EFFECTS: searches for inputted barcode in the inventory; if an item with that barcode is found, it will output
@@ -301,8 +385,26 @@ public class InventoryApp {
             case 4:
                 viewAllItems();
                 break;
+            default:
+                displayMenu();
+        }
+    }
+
+    /*
+     * REQUIRES: selection be an integer
+     * EFFECTS: also handles the selections made by user from the main menu of the program, created because
+     *          checkstyle has maximum 25 lines per method
+     */
+    public void handleSelection2(int selection) {
+        switch (selection) {
             case 5:
-                System.exit(0);
+                loadInventory();
+                break;
+            case 6:
+                saveInventory();
+                break;
+            case 7:
+                displayExitMenu();
             default:
                 displayMenu();
         }
@@ -324,6 +426,108 @@ public class InventoryApp {
         System.out.print("Press enter to return to main menu...");
         scanner.nextLine();
         displayMenu();
+    }
+
+
+    // EFFECTS: saves the newly created or edited inventory to a file
+    public void saveInventory() {
+        try {
+            printer.open();
+            printer.write(inventory);
+            printer.close();
+
+            System.out.println("\nSuccess: Your inventory has been saved as: " + TARGET_JSON_FILE + "\n");
+            System.out.print("Press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("\nError: Unable to write to the file: " + TARGET_JSON_FILE + "\n");
+            System.out.print("Press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+        }
+    }
+
+
+    // EFFECTS: saves the newly created or edited inventory to a file before exiting from the inventory manager app
+    public void saveInventoryExit() {
+        try {
+            printer.open();
+            printer.write(inventory);
+            printer.close();
+
+            System.out.println("\nSuccess: Your inventory has been saved as: " + TARGET_JSON_FILE);
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("\nError: Unable to write to the file: " + TARGET_JSON_FILE + "\n");
+            System.out.print("Press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+        }
+    }
+
+
+    /* MODIFIES: this
+     * EFFECTS: loads a previously created inventory from target file
+     */
+    public void loadInventory() {
+        try {
+            if (inventory.isEmpty()) {
+                inventory = reader.read();
+            } else {
+                displayLoadInventory();
+            }
+
+            System.out.println("\nSuccess: Your inventory has been loaded from: " + TARGET_JSON_FILE + "\n");
+            System.out.print("Press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+
+        } catch (IOException ioException) {
+            System.out.println("\nError: Unable to read from the file: " + TARGET_JSON_FILE + "\n");
+            System.out.print("Press enter to return to main menu...");
+            scanner.nextLine();
+            displayMenu();
+        }
+    }
+
+
+    // EFFECTS: displays the menu presented to user when they try to load an inventory on top of their current
+    //          non-empty inventory
+    public void displayLoadInventory() {
+        System.out.println("\nAre you sure you want to overwrite your current inventory?");
+        System.out.println("----------------------------------------------------------");
+        System.out.println("[1] - Yes\n"
+                         + "[2] - No");
+        System.out.print("Selection: ");
+
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+
+        handleLoadInventory(selection);
+    }
+
+
+    /*
+     * REQUIRES: selection be an integer
+     * EFFECTS: handles the selections from user when they try to load an inventory on top of their current non-empty
+     *          inventory
+     */
+    public void handleLoadInventory(int selection) {
+        switch (selection) {
+            case 1:
+                inventory.removeAllItems();
+                loadInventory();
+                break;
+            case 2:
+                System.out.print("\nInventory not loaded, press enter to return to main menu...\n");
+                scanner.nextLine();
+                displayMenu();
+                break;
+            default:
+                displayLoadInventory();
+        }
     }
 
 

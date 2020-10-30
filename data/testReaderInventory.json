@@ -1,0 +1,23 @@
+{"Items": [
+  {
+    "Category": "Console",
+    "Description": "",
+    "Barcode": 123,
+    "Quantity": 2,
+    "Name": "Nintendo"
+  },
+  {
+    "Category": "Console",
+    "Description": "",
+    "Barcode": 321,
+    "Quantity": 4,
+    "Name": "Playstation"
+  },
+  {
+    "Category": "Console",
+    "Description": "",
+    "Barcode": 231,
+    "Quantity": 6,
+    "Name": "Xbox"
+  }
+]}

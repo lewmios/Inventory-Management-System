@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
 
     private Item testItem;
+
 
     @BeforeEach
     void runBefore() {
@@ -115,6 +117,18 @@ class ItemTest {
 
         assertEquals(item1.hashCode(), item2.hashCode());
         assertFalse(item2.hashCode() == item3.hashCode());
+    }
+
+
+    @Test
+    void testToJson() {
+        JSONObject testJson = testItem.toJson();
+
+        assertEquals("Nintendo Switch", testJson.getString("Name"));
+        assertEquals(123454321, testJson.getInt("Barcode"));
+        assertEquals(1, testJson.getInt("Quantity"));
+        assertEquals("Electronics", testJson.getString("Category"));
+        assertEquals("Test item", testJson.getString("Description"));
     }
 
 }

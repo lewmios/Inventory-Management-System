@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,6 +74,14 @@ public class InventoryTest {
 
 
     @Test
+    public void testRemoveAllItems() {
+        assertFalse(testInventory.isEmpty());
+        testInventory.removeAllItems();
+        assertTrue(testInventory.isEmpty());
+    }
+
+
+    @Test
     public void testGetItemByBarcode() {
         assertEquals(testItem1, testInventory.getItemByBarcode(testItem1.getItemBarcode()));
         assertEquals(null, testInventory.getItemByBarcode(testItem2.getItemBarcode()));
@@ -97,6 +106,16 @@ public class InventoryTest {
         Inventory compareInventory = new Inventory();
         assertFalse(testInventory.isEmpty());
         assertTrue(compareInventory.isEmpty());
+    }
+
+
+    @Test
+    public void testToJson() {
+        JSONObject testInv = new JSONObject();
+        assertTrue(testInv.isEmpty());
+        //TODO: FIX THIS TESTING METHOD
+        testInv = testInventory.toJson();
+        assertFalse(testInv.isEmpty());
     }
 
 }

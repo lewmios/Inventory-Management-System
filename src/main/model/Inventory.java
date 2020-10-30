@@ -1,9 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Inventory {
+// represents an Inventory which contains a list of Items
+public class Inventory implements Writable {
     private Map<Integer, Item> items;
 
     /*
@@ -11,6 +17,7 @@ public class Inventory {
      */
     public Inventory() {
         this.items = new LinkedHashMap<>();
+        //TODO: maybe add name for inventory
     }
 
 
@@ -57,6 +64,14 @@ public class Inventory {
         return items;
     }
 
+    /* MODIFIES: this
+     * EFFECTS: removes all items and clears the inventory
+     */
+    public void removeAllItems() {
+        items.clear();
+    }
+
+
     /*
      * REQUIRES: barcode must be greater than zero
      * EFFECTS: returns the item in an inventory corresponding to the given barcode, and if no such item is found
@@ -65,6 +80,7 @@ public class Inventory {
     public Item getItemByBarcode(int barcode) {
         return items.get(barcode);
     }
+
 
     /*
      * REQUIRES: name has a length greater than zero
@@ -80,6 +96,7 @@ public class Inventory {
         return null;
     }
 
+
     /*
      * REQUIRES: barcode must be greater than 0
      * EFFECTS: returns true if item with specified barcode exists in the inventory, false otherwise
@@ -91,6 +108,7 @@ public class Inventory {
         return false;
     }
 
+
     /*
      * EFFECTS: returns true if inventory is empty, false otherwise
      */
@@ -98,4 +116,29 @@ public class Inventory {
         return items.size() == 0;
     }
 
+
+    @Override
+    // EFFECTS: takes an inventory and returns it as a json object
+    public JSONObject toJson() {
+        JSONObject jsonInventory = new JSONObject();
+
+        jsonInventory.put("Items", itemsToJson());
+
+        return jsonInventory;
+    }
+
+
+    // EFFECTS: takes the items in the inventory and returns them as a json array
+    public JSONArray itemsToJson() {
+        JSONArray jsonItems = new JSONArray();
+
+        Iterator<Item> it = items.values().iterator();
+
+        while (it.hasNext()) {
+            Item itemInInv = it.next();
+            jsonItems.put(itemInInv.toJson());
+        }
+
+        return jsonItems;
+    }
 }

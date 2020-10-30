@@ -3,6 +3,10 @@ package model;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,9 +26,11 @@ public class InventoryTest {
         testItem3 = new Item("Xbox Series X", 122, 1, "Electronics",
                 "Microsoft Game Console");
 
-        testInventory = new Inventory();
+        testInventory = new Inventory("Test Inventory");
         testInventory.addItem(testItem1);
+
     }
+
 
     @Test
     public void testAddItem() {
@@ -64,8 +70,18 @@ public class InventoryTest {
 
 
     @Test
+    public void testSetInventoryName() {
+        assertEquals("Test Inventory", testInventory.getInventoryName());
+
+        testInventory.setInventoryName("Compare Inventory");
+
+        assertEquals("Compare Inventory", testInventory.getInventoryName());
+    }
+
+
+    @Test
     public void testGetAllItems() {
-        Inventory compareInventory = new Inventory();
+        Inventory compareInventory = new Inventory("Compare Inventory");
 
         assertFalse(testInventory.getAllItems() == compareInventory.getAllItems());
         compareInventory.addItem(testItem1);
@@ -103,7 +119,7 @@ public class InventoryTest {
 
     @Test
     public void testIsEmpty() {
-        Inventory compareInventory = new Inventory();
+        Inventory compareInventory = new Inventory("Compare Inventory");
         assertFalse(testInventory.isEmpty());
         assertTrue(compareInventory.isEmpty());
     }
@@ -113,9 +129,11 @@ public class InventoryTest {
     public void testToJson() {
         JSONObject testInv = new JSONObject();
         assertTrue(testInv.isEmpty());
-        //TODO: FIX THIS TESTING METHOD
+
         testInv = testInventory.toJson();
         assertFalse(testInv.isEmpty());
+        assertTrue(testInv.get("Inventory Name").equals(testInventory.getInventoryName()));
+
     }
 
 }

@@ -46,9 +46,9 @@ public class JsonReader {
 
     // EFFECTS: parses inventory from the json object and returns it as an inventory
     private Inventory parseInventory(JSONObject items) {
-        /*String name = items.getString("name");*/
+        String name = items.getString("Inventory Name");
 
-        Inventory inv = new Inventory();
+        Inventory inv = new Inventory(name);
         addItems(inv, items);
         return inv;
     }

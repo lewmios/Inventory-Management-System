@@ -30,7 +30,7 @@ public class JsonWriterTest extends JsonTest {
     @Test
     void testWriterEmptyInventory() {
         try {
-            Inventory inv = new Inventory();
+            Inventory inv = new Inventory("Test Inventory");
             JsonWriter printer = new JsonWriter("./data/testWriterEmptyInventory.json");
 
             printer.open();
@@ -48,9 +48,9 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterInventory() {
         try {
-            Inventory inv = new Inventory();
+            Inventory inv = new Inventory("Test Inventory");
             Item testItem1 = new Item("Nintendo Switch", 120, 1, "Electronics",
                     "Nintendo Game Console");
             Item testItem2 = new Item("Playstation 5", 121, 1, "Electronics",
@@ -66,12 +66,13 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterInventory.json");
             inv = reader.read();
+            assertEquals("Test Inventory", inv.getInventoryName());
 
             Map<Integer, Item> items = inv.getAllItems();
             assertEquals(2, items.size());
 
-            checkItem("Nintendo Switch", 120, items.get(120));
-            checkItem("Playstation 5", 121, items.get(121));
+            checkItem("Nintendo Switch", 120, 1, items.get(120));
+            checkItem("Playstation 5", 121, 1, items.get(121));
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

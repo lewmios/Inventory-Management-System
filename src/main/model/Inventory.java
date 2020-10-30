@@ -11,13 +11,15 @@ import java.util.Map;
 // represents an Inventory which contains a list of Items
 public class Inventory implements Writable {
     private Map<Integer, Item> items;
+    private String inventoryName;
+
 
     /*
-     * EFFECTS: creates an inventory of items through a linked hash map
+     * EFFECTS: creates an named inventory of items through a linked hash map
      */
-    public Inventory() {
+    public Inventory(String name) {
         this.items = new LinkedHashMap<>();
-        //TODO: maybe add name for inventory
+        this.inventoryName = name;
     }
 
 
@@ -57,6 +59,20 @@ public class Inventory implements Writable {
             }
         }
         return false;
+    }
+
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+
+    /* MODIFIES: this
+     * REQUIRES: newName has a length greater than zero
+     * EFFECTS: replaces current inventory name with newName
+     */
+    public void setInventoryName(String newName) {
+        this.inventoryName = newName;
     }
 
 
@@ -122,6 +138,7 @@ public class Inventory implements Writable {
     public JSONObject toJson() {
         JSONObject jsonInventory = new JSONObject();
 
+        jsonInventory.put("Inventory Name", inventoryName);
         jsonInventory.put("Items", itemsToJson());
 
         return jsonInventory;

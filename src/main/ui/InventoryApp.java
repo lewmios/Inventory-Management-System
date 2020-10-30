@@ -21,7 +21,7 @@ public class InventoryApp {
 
     // EFFECTS: runs the inventory application
     public InventoryApp() throws FileNotFoundException {
-        this.inventory = new Inventory();
+        this.inventory = new Inventory("New Inventory");
         this.scanner = new Scanner(System.in);
 
         this.printer = new JsonWriter(TARGET_JSON_FILE);
@@ -35,13 +35,15 @@ public class InventoryApp {
     public void displayMenu() {
         System.out.println("\nMain Menu");
         System.out.println("---------");
+        System.out.println("[ Current Inventory: " + inventory.getInventoryName() + " ]");
         System.out.print("[1] - Item Lookup by barcode\n"
                         + "[2] - Item lookup by name\n"
                         + "[3] - Add new item\n"
                         + "[4] - View all items\n"
-                        + "[5] - Load inventory\n"
-                        + "[6] - Save inventory\n"
-                        + "[7] - Exit\n\n");
+                        + "[5] - Change inventory name\n"
+                        + "[6] - Load inventory\n"
+                        + "[7] - Save inventory\n"
+                        + "[8] - Exit\n\n");
         System.out.print("Selection: ");
         int selection = scanner.nextInt();
         scanner.nextLine();
@@ -65,6 +67,22 @@ public class InventoryApp {
         scanner.nextLine();
 
         handleLoadPreviousInventory(selection);
+    }
+
+
+    // EFFECTS: displays menu which allows users to change the name of their current inventory
+    public void displayChangeInventoryName() {
+        System.out.println("\nPlease Enter a New Inventory Name");
+        System.out.println("----------------------------------");
+        System.out.print("Name: ");
+        String newName = scanner.nextLine();
+
+        inventory.setInventoryName(newName);
+
+        System.out.println("\nSuccess: Inventory name changed to: " + newName);
+        System.out.print("Press enter to return to main menu...");
+        scanner.nextLine();
+        displayMenu();
     }
 
 
@@ -398,12 +416,15 @@ public class InventoryApp {
     public void handleSelection2(int selection) {
         switch (selection) {
             case 5:
-                loadInventory();
+                displayChangeInventoryName();
                 break;
             case 6:
-                saveInventory();
+                loadInventory();
                 break;
             case 7:
+                saveInventory();
+                break;
+            case 8:
                 displayExitMenu();
             default:
                 displayMenu();

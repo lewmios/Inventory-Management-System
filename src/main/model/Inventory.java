@@ -37,6 +37,15 @@ public class Inventory implements Writable {
 
 
     /* MODIFIES: this
+     * EFFECTS: removes all items in the current inventory and replaces them with the items in the given inventory
+     */
+    public void replaceInventory(Inventory inventory) {
+        removeAllItems();
+        items.putAll(inventory.getAllItems());
+    }
+
+
+    /* MODIFIES: this
      * REQUIRES: quantity must be greater than zero
      * EFFECTS: decreases the quantity of an item in the inventory, and if the quantity of the item in the inventory
      *          reaches zero, then removes the item from the inventory; if item is found in inventory, and item

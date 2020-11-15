@@ -52,6 +52,16 @@ public class InventoryTest {
 
 
     @Test
+    public void testReplaceInventory() {
+        Inventory replacementInventory = new Inventory("Replacement Inventory");
+        replacementInventory.addItem(testItem2);
+        assertFalse(testInventory.getAllItems().containsKey(testItem2.getItemBarcode()));
+        testInventory.replaceInventory(replacementInventory);
+        assertTrue(testInventory.getAllItems().containsKey(testItem2.getItemBarcode()));
+    }
+
+
+    @Test
     public void testRemoveItem() {
         assertEquals(1, testInventory.getItemByBarcode(testItem1.getItemBarcode()).getItemQuantity());
         testInventory.addItem(testItem1);

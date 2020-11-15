@@ -130,12 +130,23 @@ public class Item implements Writable {
 
     /*
      * EFFECTS: returns a string representation of the item
-     */
+     *//*
     public String toString() {
         return String.format("[ Name: %s | Barcode: %d | Quantity: %d | Category: %s ]", itemName,
                 itemBarcode, itemQuantity, itemCategory);
+    }*/
+
+    /*
+     * EFFECTS: returns a string representation of the item
+     */
+    public String toString() {
+        return String.format("[ Name: %s | Barcode: %d | Quantity: %d ]", itemName, itemBarcode, itemQuantity);
     }
 
+    public String toStringConsole() {
+        return String.format("[ Name: %s | Barcode: %d | Quantity: %d | Category: %s ]", itemName, itemBarcode,
+                itemQuantity, itemCategory);
+    }
 
     /*
      * EFFECTS: checks to see if two given items are the same item based on the barcode of the items

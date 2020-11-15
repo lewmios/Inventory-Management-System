@@ -408,6 +408,7 @@ public class InventoryApp {
         }
     }
 
+
     /*
      * REQUIRES: selection be an integer
      * EFFECTS: also handles the selections made by user from the main menu of the program, created because
@@ -441,7 +442,7 @@ public class InventoryApp {
             System.out.println("\nThere are no item currently in the inventory\n");
         } else {
             for (Item i : inventory.getAllItems().values()) {
-                System.out.println(i);
+                System.out.println(i.toStringConsole());
             }
         }
         System.out.print("Press enter to return to main menu...");

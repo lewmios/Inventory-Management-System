@@ -88,8 +88,13 @@ class ItemTest {
 
     @Test
     void testToString() {
-        assertTrue(testItem.toString().contains("[ Name: Nintendo Switch | Barcode: 123454321 | Quantity: 1 |" +
-                " Category: Electronics ]"));
+        assertTrue(testItem.toString().contains("[ Name: Nintendo Switch | Barcode: 123454321 | Quantity: 1 ]"));
+    }
+
+    @Test
+    void testToStringConsole() {
+        assertTrue(testItem.toStringConsole().contains("[ Name: Nintendo Switch | Barcode: 123454321 | Quantity: 1 " +
+                "| Category: Electronics ]"));
     }
 
 

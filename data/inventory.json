@@ -1,25 +1,25 @@
 {
   "Items": [
     {
-      "Category": "Console",
-      "Description": "",
-      "Barcode": 123,
-      "Quantity": 2,
-      "Name": "Nintendo"
+      "Category": "Electronics",
+      "Description": "Nintendo Game Console",
+      "Barcode": 1010,
+      "Quantity": 2600,
+      "Name": "Nintendo Switch"
     },
     {
-      "Category": "Console",
-      "Description": "",
-      "Barcode": 321,
-      "Quantity": 4,
-      "Name": "Playstation"
+      "Category": "Electronics",
+      "Description": "Sony Game Console",
+      "Barcode": 1020,
+      "Quantity": 4200,
+      "Name": "Playstation 5"
     },
     {
-      "Category": "Console",
-      "Description": "",
-      "Barcode": 231,
-      "Quantity": 6,
-      "Name": "Xbox"
+      "Category": "Electronics",
+      "Description": "Microsoft Game Console",
+      "Barcode": 1030,
+      "Quantity": 1800,
+      "Name": "Xbox Series X"
     }
   ],
   "Inventory Name": "Consoles"

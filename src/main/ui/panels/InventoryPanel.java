@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// represents a JPanel that displays a list of items in the inventory
 public class InventoryPanel extends JPanel {
 
     private Inventory inventory;
@@ -21,6 +22,8 @@ public class InventoryPanel extends JPanel {
     public InventoryState inventoryState;
     private JScrollPane itemScroll;
 
+
+    // EFFECTS: creates a JPanel that has a scrollable list of items currently in the inventory
     public InventoryPanel(Inventory inventory, InventoryState inventoryState) {
         this.inventory = inventory;
         this.inventoryState = inventoryState;
@@ -38,6 +41,7 @@ public class InventoryPanel extends JPanel {
         add(itemScroll);
     }
 
+    // EFFECTS: returns the Item in the list that the user has selected
     public Item getSelectedItem() {
         return this.itemList.getSelectedValue();
     }

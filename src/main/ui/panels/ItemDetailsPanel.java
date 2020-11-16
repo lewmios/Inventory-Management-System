@@ -10,7 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class DetailsPanel extends JPanel {
+// represents a JPanel containing item details such as name, barcode, quantity, category, and description
+public class ItemDetailsPanel extends JPanel {
 
     private static Item selectedItem = null;
 
@@ -20,7 +21,9 @@ public class DetailsPanel extends JPanel {
     private static JLabel itemCategory;
     private static JLabel itemDescription;
 
-    public DetailsPanel(InventoryState inventoryState) {
+
+    // EFFECTS: creates a JPanel that displays all the fields associated with an Item object
+    public ItemDetailsPanel(InventoryState inventoryState) {
         setLayout(new GridLayout(5, 1));
         Border displayBorder = new EmptyBorder(20, 20, 20,20);
         Border displayTitle = new TitledBorder("Item Details");
@@ -40,14 +43,21 @@ public class DetailsPanel extends JPanel {
         add(this.itemDescription);
     }
 
-    public static void itemUpdate(Item item) {
-        selectedItem = item;
 
-        itemName.setText("Name: " + selectedItem.getItemName());
-        itemBarcode.setText("Barcode: " + selectedItem.getItemBarcode());
-        itemQuantity.setText("Quantity: " + selectedItem.getItemQuantity());
-        itemCategory.setText("Category: " + selectedItem.getItemCategory());
-        itemDescription.setText("Description: " + selectedItem.getItemDescription());
+    /* MODIFIES: this
+     * EFFECTS: updates the JLabels so that when a new Item object is selected, the ItemDetailsPanel will display its
+     *          associated fields
+     */
+    public static void itemUpdate(Item item) {
+        if (item != null) {
+            selectedItem = item;
+
+            itemName.setText("Name: " + selectedItem.getItemName());
+            itemBarcode.setText("Barcode: " + selectedItem.getItemBarcode());
+            itemQuantity.setText("Quantity: " + selectedItem.getItemQuantity());
+            itemCategory.setText("Category: " + selectedItem.getItemCategory());
+            itemDescription.setText("Description: " + selectedItem.getItemDescription());
+        }
     }
 
 }

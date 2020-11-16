@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+// represents a JPanel that allows the user to search for an item in the inventory
 public class ItemLookupPanel extends JPanel {
 
     private JLabel barcodeLabel;
@@ -22,6 +23,7 @@ public class ItemLookupPanel extends JPanel {
     public Item searchedItem;
 
 
+    // EFFECTS: creates a JPanel that has necessary JTextFields allowing users to search for an item by barcode or name
     public ItemLookupPanel() {
         setLayout(null);
         Border titleBorder = new TitledBorder("Enter Barcode or Name of Item");
@@ -52,15 +54,22 @@ public class ItemLookupPanel extends JPanel {
     }
 
 
+    // EFFECTS: returns true if the user has only inputted a barcode value
     public Boolean isBarcode() {
         return !barcodeSearch.getText().isEmpty() && nameSearch.getText().isEmpty();
     }
 
+
+    // EFFECTS: returns true if the user has only inputted a name value
     public Boolean isName() {
         return !nameSearch.getText().isEmpty() && barcodeSearch.getText().isEmpty();
     }
 
 
+    /* REQUIRES: isBarcode is true
+     * EFFECTS: takes the inputted barcode and if matching item is in inventory, returns item, else tells user that
+     *          item is not found and returns null
+     */
     public Item searchBarcode(Inventory inventory) throws NumberFormatException {
         int barcode = Integer.parseInt(barcodeSearch.getText());
         if (inventory.getAllItems().containsKey(barcode)) {
@@ -73,6 +82,10 @@ public class ItemLookupPanel extends JPanel {
     }
 
 
+    /* REQUIRES: isName is true
+     * EFFECTS: takes the inputted name and if matching item is in inventory, returns item, else tells user that
+     *          item is not found and returns null
+     */
     public Item searchName(Inventory inventory) {
         Item foundItem = inventory.getItemByName(nameSearch.getText());
         if (foundItem != null) {

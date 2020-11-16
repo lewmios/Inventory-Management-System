@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
+// represents the JFrame that contains all the panels required to power the inventory GUI
 public class InventoryGUI extends JFrame {
 
     private InventoryState inventoryState;
@@ -27,6 +27,9 @@ public class InventoryGUI extends JFrame {
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
 
+
+    // EFFECTS: creates a RightPanel and LeftPanel and then adds them to the backgroundPanel which is then added to
+    //          the CENTER of the this
     public InventoryGUI(Inventory inventory) {
         this.inventory = inventory;
         loadOnStartup();
@@ -57,6 +60,10 @@ public class InventoryGUI extends JFrame {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: initializes a JsonReader and creates a JOptionPane asking the user if they would like to load from
+     *          previous inventory on startup of the application
+     */
     public void loadOnStartup() {
         this.reader = new JsonReader(TARGET_JSON_FILE);
 
@@ -73,6 +80,10 @@ public class InventoryGUI extends JFrame {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: adds a WindowListener to this JFrame and prompts the user when they exit whether they want to save
+     *          their current inventory before leaving
+     */
     public void setCloseOperation() {
         this.printer = new JsonWriter(TARGET_JSON_FILE);
 

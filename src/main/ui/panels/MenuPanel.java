@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+// represents a JPanel that allows users to interact with their inventory
 public class MenuPanel extends JPanel implements ActionListener {
 
     private Inventory inventory;
@@ -43,6 +44,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     private Map<String, JButton> menuButtons;
 
 
+    // EFFECTS: creates a JPanel that displays all the buttons required for the users to interact with their
+    //          inventory and also displays the name of the current inventory at the top of the panel
     public MenuPanel(Inventory inventory, InventoryState inventoryState) {
         this.inventory = inventory;
         this.inventoryState = inventoryState;
@@ -75,6 +78,9 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: initializes and creates all the JButtons and ActionListeners for the buttons
+     */
     public void createButtons() {
         this.itemLookup = new JButton("Item Lookup");
         this.addItem = new JButton("Add New Item");
@@ -90,6 +96,9 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: returns the JLabel that displays the name of the current inventory
+     */
     public JLabel createInventoryNameLabel() {
         String inventoryName = this.inventory.getInventoryName();
         this.inventoryNameLabel = new JLabel("Current Inventory: [ " + inventoryName + " ]");
@@ -98,6 +107,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    // EFFECTS: ActionListener for all the buttons on the panel, and opens different panels depending on the button
+    //          pressed by the user
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == itemLookup) {
@@ -119,6 +130,10 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: displays ItemLookUpPanel if user pressed itemLookup button and if the item is found, displays a
+     *          ItemFoundPanel that shows user the details of that item
+     */
     public void displayItemLookup() {
         this.itemLookupPanel = new ItemLookupPanel();
         this.foundItemPanel = new ItemFoundPanel();
@@ -130,8 +145,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             if (itemLookupPanel.isBarcode()) {
                 try {
                     this.foundItem = itemLookupPanel.searchBarcode(this.inventory);
-                    this.foundItemPanel.itemUpdate(foundItem);
-                    JOptionPane.showMessageDialog(null, foundItemPanel, "Item Found", JOptionPane.PLAIN_MESSAGE);
+                    ifIsItemThenDisplay(this.foundItem);
 
                 } catch (NumberFormatException numberFormatException) {
                     JOptionPane.showMessageDialog(null, "Please re-enter valid barcode");
@@ -140,17 +154,30 @@ public class MenuPanel extends JPanel implements ActionListener {
                 }
             } else if (itemLookupPanel.isName()) {
                 this.foundItem = itemLookupPanel.searchName(this.inventory);
-                this.foundItemPanel.itemUpdate(foundItem);
-                JOptionPane.showMessageDialog(null, foundItemPanel, "Item Found", JOptionPane.PLAIN_MESSAGE);
+                ifIsItemThenDisplay(this.foundItem);
 
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter either barcode or name, not both");
                 displayItemLookup();
+
             }
         }
     }
 
 
+    // EFFECTS: if the item found by the ItemFoundPanel is not null then returns true, else false
+    public void ifIsItemThenDisplay(Item item) {
+        if (item != null) {
+            this.foundItemPanel.itemUpdate(item);
+            JOptionPane.showMessageDialog(null, foundItemPanel, "Item Found", JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+
+
+    /* MODIFIES: this, inventory, inventoryState
+     * EFFECTS: displays AddNewItemPanel if user pressed addItem button and if the details entered are valid, adds
+     *          the newly created item to the inventory and inventoryState, else tells user to re-enter valid details
+     */
     public void displayAddItem() {
         this.addNewItemPanel = new AddNewItemPanel();
 
@@ -182,6 +209,10 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this, inventory
+     * EFFECTS: displays a JOptionPane that allows the user to change the name of the current inventory and if the
+     *          entered name is valid then changes the inventory name, else tells user to re-enter valid name
+     */
     public void displayChangeInventoryName() {
         String newInvName = JOptionPane.showInputDialog("New Inventory Name");
 
@@ -195,6 +226,10 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this, inventory, inventoryState
+     * EFFECTS: displays a JOptionPane that asks user if they want to load inventory from file, if YES option is
+     *          selected, inventory will be loaded from the file, else if NO option is selected, does nothing
+     */
     public void displayLoadInventory() {
         int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to load inventory?", "Load Inventory",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -213,6 +248,10 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    /* MODIFIES: this
+     * EFFECTS: displays a JOptionPane that asks user if they want to save inventory to file, if YES option is
+     *          selected, inventory will be saved to the file, else if NO option is selected, does nothing
+     */
     public void displaySaveInventory() {
         int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to save inventory?", "Save Inventory",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

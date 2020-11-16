@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+// represents a JPanel containing required input fields to create a new item
 public class AddNewItemPanel extends JPanel {
 
     private JLabel name;
@@ -24,6 +25,8 @@ public class AddNewItemPanel extends JPanel {
     public JTextField itemCategory;
     public JTextField itemDescription;
 
+
+    // EFFECT: creates a new JPanel which has all necessary JLabels and JTextFields for users to add a new item
     public AddNewItemPanel() {
         setLayout(null);
         Border titleBorder = new TitledBorder("Please Enter Item Details");
@@ -37,6 +40,10 @@ public class AddNewItemPanel extends JPanel {
         setPreferredSize(new Dimension(340, 225));
     }
 
+
+    /* MODIFIES: this
+     * EFFECTS: initializes and creates all the JLabels and JTextFields
+     */
     public void setLabelsAndFields() {
         this.name = new JLabel("Item Name: ");
         this.barcode = new JLabel("Barcode*: ");
@@ -52,6 +59,10 @@ public class AddNewItemPanel extends JPanel {
         this.itemDescription = new JTextField();
     }
 
+
+    /* MODIFIES: this
+     * EFFECTS: sets all the bounds for the JLabels and JTextFields
+     */
     public void setAllBounds() {
         name.setBounds(10, 30, 80, 25);
         barcode.setBounds(10, 60, 80, 25);
@@ -67,6 +78,10 @@ public class AddNewItemPanel extends JPanel {
         itemDescription.setBounds(120,150,165,25);
     }
 
+
+    /* MODIFIES: this
+     * EFFECTS: adds all the JLabels and JTextFields to the AddNewItemPanel
+     */
     public void addAllLabelsFields() {
         this.add(name);
         this.add(itemName);
@@ -86,6 +101,9 @@ public class AddNewItemPanel extends JPanel {
         this.add(exception);
     }
 
+
+    // EFFECTS: if the values inputted into the JTextFields are able to create a valid Item object, returns true,
+    //          else returns false
     public Boolean isProperlyInputted() {
         if (itemName.getText().isEmpty() || itemCategory.getText().isEmpty() || itemQuantity.getText().isEmpty()
                 || itemCategory.getText().isEmpty() || itemDescription.getText().isEmpty()) {

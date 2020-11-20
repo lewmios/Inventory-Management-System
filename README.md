@@ -59,3 +59,15 @@ As a user phase 2, I want to be able to ...
   - Load previous inventory so that I can interact with it again
   - Be reminded to save my inventory when I quit the application
   - Be given the option to load a previous inventory from a file upon starting application
+  
+  
+As a user phase 3, I want to be able to (implemented phase 1/2 stories) ...
+
+  - Create an item and add it into the inventory system
+  - View a list of items currently in the inventory system
+  - Search for items via item's name and view selected item's descriptors in detail
+  - Search for items via item's barcode and view selected item's descriptors in detail
+  - Save my inventory to a file so that I can re-access it in the future
+  - Load previous inventory so that I can interact with it again
+  - Be reminded to save my inventory when I quit the application
+  - Be given the option to load a previous inventory from a file upon starting application

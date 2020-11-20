@@ -5,6 +5,8 @@ import model.InventoryState;
 import model.Item;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,8 +16,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     private JsonReader reader;
     private JsonWriter printer;
     private static final String TARGET_JSON_FILE = "./data/inventory.json";
+
+    private static final String TARGET_SOUND_FILE = "data/SuccessSound.wav";
 
     private JLabel inventoryNameLabel;
     private AddNewItemPanel addNewItemPanel;
@@ -169,6 +172,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void ifIsItemThenDisplay(Item item) {
         if (item != null) {
             this.foundItemPanel.itemUpdate(item);
+            playSound(TARGET_SOUND_FILE);
             JOptionPane.showMessageDialog(null, foundItemPanel, "Item Found", JOptionPane.PLAIN_MESSAGE);
         }
     }
@@ -216,12 +220,14 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void displayChangeInventoryName() {
         String newInvName = JOptionPane.showInputDialog("New Inventory Name");
 
-        if (!newInvName.isEmpty()) {
-            this.inventory.setInventoryName(newInvName);
-            this.inventoryNameLabel.setText("Current Inventory: [ " + newInvName + " ]");
-        } else {
-            JOptionPane.showMessageDialog(null, "Please re-enter new inventory name properly");
-            displayChangeInventoryName();
+        if (newInvName != null) {
+            if (!newInvName.isEmpty()) {
+                this.inventory.setInventoryName(newInvName);
+                this.inventoryNameLabel.setText("Current Inventory: [ " + newInvName + " ]");
+            } else {
+                JOptionPane.showMessageDialog(null, "Please re-enter new inventory name properly");
+                displayChangeInventoryName();
+            }
         }
     }
 
@@ -265,6 +271,21 @@ public class MenuPanel extends JPanel implements ActionListener {
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("\nError: Unable to write to the file: " + TARGET_JSON_FILE + "\n");
             }
+        }
+    }
+
+
+    // EFFECTS: reads the given file path and initializes an AudioPlayer that plays the sound from the given file
+    //          whenever this method is called; *code modeled after https://www.youtube.com/watch?v=3q4f6I5zi2w
+    public void playSound(String path) {
+        InputStream ss;
+        try {
+            ss = new FileInputStream(new File(path));
+            AudioStream sa = new AudioStream(ss);
+            AudioPlayer.player.start(sa);
+
+        } catch (Exception e) {
+            System.out.println("\nError: unable to play sound from file: " + TARGET_SOUND_FILE + "\n");
         }
     }
 

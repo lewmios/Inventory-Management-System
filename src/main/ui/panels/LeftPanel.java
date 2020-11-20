@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 // represents the left panel of the GUI
-public class LeftPanel extends JPanel {
+public class LeftPanel extends ImageBackgroundPanel {
 
     public ItemDetailsPanel itemDetailsPanel;
     public MenuPanel menuPanel;
@@ -19,6 +19,7 @@ public class LeftPanel extends JPanel {
         this.menuPanel = new MenuPanel(inventory, inventoryState);
 
         setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(360, 460));
 
         add(itemDetailsPanel, BorderLayout.NORTH);
         add(menuPanel, BorderLayout.SOUTH);

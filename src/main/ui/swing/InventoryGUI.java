@@ -23,7 +23,7 @@ public class InventoryGUI extends JFrame {
     private JsonReader reader;
     private JsonWriter printer;
 
-    private JPanel backgroundPanel;
+    private ImageBackgroundPanel backgroundPanel;
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
 
@@ -39,7 +39,7 @@ public class InventoryGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        this.backgroundPanel = new JPanel();
+        this.backgroundPanel = new ImageBackgroundPanel();
         this.rightPanel = new RightPanel(this.inventory, inventoryState);
         this.leftPanel = rightPanel.updatedLeftPanel(this.inventory, inventoryState);
 
@@ -99,7 +99,7 @@ public class InventoryGUI extends JFrame {
                         printer.write(inventory);
                         printer.close();
                         JOptionPane.showMessageDialog(null, "[ " + inventory.getInventoryName() + " ]"
-                                + " Successfully Saved...Goodbye uwu");
+                                + " Successfully Saved...Goodbye ^-^");
                     } catch (FileNotFoundException fileNotFoundException) {
                         System.out.println("\nError: Unable to write to the file: " + TARGET_JSON_FILE + "\n");
                     }

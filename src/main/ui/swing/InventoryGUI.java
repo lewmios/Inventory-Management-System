@@ -40,7 +40,7 @@ public class InventoryGUI extends JFrame {
         setLayout(new BorderLayout());
 
         this.backgroundPanel = new ImageBackgroundPanel();
-        this.rightPanel = new RightPanel(this.inventory, inventoryState);
+        this.rightPanel = new RightPanel(inventoryState);
         this.leftPanel = rightPanel.updatedLeftPanel(this.inventory, inventoryState);
 
         backgroundPanel.setLayout(new BorderLayout());

@@ -14,8 +14,8 @@ public class RightPanel extends ImageBackgroundPanel {
 
 
     // EFFECTS: creates a JPanel which has an InventoryPanel in the CENTER
-    public RightPanel(Inventory inventory, InventoryState inventoryState) {
-        this.inventoryPanel = new InventoryPanel(inventory, inventoryState);
+    public RightPanel(InventoryState inventoryState) {
+        this.inventoryPanel = new InventoryPanel(inventoryState);
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(400, 460));
 

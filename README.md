@@ -71,3 +71,42 @@ As a user phase 3, I want to be able to (implemented phase 1/2 stories) ...
   - Load previous inventory so that I can interact with it again
   - Be reminded to save my inventory when I quit the application
   - Be given the option to load a previous inventory from a file upon starting application
+
+
+## **Phase 4: Task 2**
+
+For task two of the project, the Java construct that I have included in my project is the use of a Map interface in
+my code. However, I haven't actually changed anything in my code because the use of a Map interface has been present
+since I began this project. The class containing the Map interface is the Inventory class, and it makes use of Java's
+LinkedHashMap. This is because when I first started the project, I wanted to be able to store Item's within the
+Inventory, but I also wanted to be able to find Items based on their barcode. For this reason, I made it so that my
+Inventory was a LinkedHashMap where the key for every Item in the Map could be set to the Item's barcode. Once I
+overrode the equals and hashcode in my Item class, this made it very easy to interact with Items within my Inventory.
+
+
+## **Phase 4: Task 3**
+
+Although when looking at my UML Class Diagram, I am able to understand the reasoning behind the association,
+aggregation, and extension relationships, I feel that there are many design aspects that I could potentially improve
+on. If I had more time to work on my project, I believe that I would definitely refactor parts of the code to
+improve the overall simplicity, efficiency, and design of the code. Below is a list of code I would potentially
+refactor...
+
+  - In order to have the inventory visually update in the GUI, I created a class to convert my Inventory into a
+   DefaultListModel<Item>. However, I feel like rather than using a DefaultListModel, I could have used Observers
+   that would repaint the panels once it detected a change in the Inventory.
+   
+  - Similarly, I created a method in RightPanel that created a LeftPanel so that the LeftPanel could be accessed by
+   the RightPanel. Instead of this, I think that I could refactor it so that the relationship between InventoryGUI
+   and LeftPanel(respectively RightPanel) were bi-directional. That way, the RightPanel would be able to access the
+   LeftPanel through their bi-directional relationship with the InventoryGUI class.
+  
+  - In the ui class, the ItemDetailsPanel and ItemFoundPanel are almost the same except for some small details
+  . When I tried to use a single class called DetailsPanel for both occurrences of the panel, the itemUpdate method would
+   not work properly which stopped the GUI from updating properly when a new Item got inputted. However, I think that
+   I could refactor this part of the code by creating an abstract class and having the ItemDetailsPanel and
+   ItemFoundPanel extend this class so that I wouldn't have two classes with duplicate code.
+  
+Overall, these are the 3 main refactors that I can think of when looking at my UML Class Diagram. However, based on
+my experience writing the code, I feel that there are many more aspects that I could improve on throughout my code.
+I think that I am currently not knowledgeable enough to incorporate more efficient methods into my design.  

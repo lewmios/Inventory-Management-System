@@ -20,6 +20,13 @@
       "Barcode": 1030,
       "Quantity": 1800,
       "Name": "Xbox Series X"
+    },
+    {
+      "Category": "Electronics",
+      "Description": "Gaming PC",
+      "Barcode": 1040,
+      "Quantity": 2000,
+      "Name": "Alienware PC"
     }
   ],
   "Inventory Name": "Consoles"
